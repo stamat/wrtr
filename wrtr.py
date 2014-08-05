@@ -46,7 +46,36 @@ def countDefaultNotebooks(path):
 	else: 
 		count = max(count)
 		return str(count+1);
-	
+
+def changeNotebook():
+	return True;
+
+def changePath():
+	return True;
+
+def setTitle():
+	return True;
+
+def appendParagaph(chapter):
+	return True;
+
+def newChapter(chapter_title, after_chapter):
+	return True;
+
+def setChapter(chapter, chapter_title):
+	return True;
+
+def readChapter(chapter):
+	return True;
+
+def read():
+	return True;
+
+def readParagraph(chapter, paragraph):
+	return True;
+
+def editParagraph(chapter, paragraph):
+	return True;
 
 def _init():
 	global _conf, FILE
@@ -64,6 +93,7 @@ def _init():
 		notebook_name = nname
 	
 	_conf['filename'] = notebook_name
+	_conf['chapter'] = 0
 
 	f = open(os.path.join(_conf['path'],_conf['filename']), 'w')
 	f.write('') #TODO: Add empty title and chapter 1
