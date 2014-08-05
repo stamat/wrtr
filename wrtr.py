@@ -48,9 +48,47 @@ def countDefaultNotebooks(path):
 		return str(count+1);
 
 def changeNotebook():
-	return True;
+	notebook_name = raw_input("Enter a name or a full path of your notebook file: ")
+	#TODO: validate file
+	pts = os.path.split(notebook_name)
+	if not pts[0] == '':
+		_conf['path'] = os.path.expanduser(pts[0])
+	
+	
+	return True
+
+def newNotebook():
+	global _conf, FILE
+	count = countDefaultNotebooks(_conf['path'])
+	nname = "notebook"+count+".txt"
+	notebook_name = raw_input("Enter a name of your new notebook file ( "+nname+" ): ")
+	if notebook_name == '':
+		notebook_name = nname
+	
+	_conf['filename'] = notebook_name
+	_conf['chapter'] = 0
+
+	FILE = os.path.join(_conf['path'],_conf['filename'])
+	f = open(FILE, 'w')
+	f.write('') #TODO: Add empty title and chapter 1
+	f.close()
+	
+	return True
+
+def promptForPath():
+	global _conf, _HOME
+	_conf['path'] = os.path.expanduser(raw_input("Enter a path where you will store your notebooks ("+_HOME+"): "))
+	if _conf['path'] == '':
+			_conf['path'] = _HOME
+		else:
+			if not os.path.exists(_conf['path']):
+				os.makedirs(_conf['path'])
+	
+	return True
 
 def changePath():
+	promptForPath()
+	storeConfig()
 	return True;
 
 def setTitle():
@@ -72,32 +110,18 @@ def read():
 	return True;
 
 def readParagraph(chapter, paragraph):
+	global _conf
 	return True;
 
+#TODO: with readline
 def editParagraph(chapter, paragraph):
 	return True;
 
 def _init():
-	global _conf, FILE
-	_conf['path'] = os.path.expanduser(raw_input("Enter a path where you will store your notebooks ("+_HOME+"): "))
-	if _conf['path'] == '':
-		_conf['path'] = _HOME
-	else:
-		if not os.path.exists(_conf['path']):
-			os.makedirs(_conf['path'])
-
-	count = countDefaultNotebooks(_conf['path']);
-	nname = "notebook"+count+".txt"
-	notebook_name = raw_input("Enter a name for your notebook file ( "+nname+" ): ")
-	if notebook_name == '':
-		notebook_name = nname
 	
-	_conf['filename'] = notebook_name
-	_conf['chapter'] = 0
+	promptForPath()
 
-	f = open(os.path.join(_conf['path'],_conf['filename']), 'w')
-	f.write('') #TODO: Add empty title and chapter 1
-	f.close()
+	newNotebook()
 
 	storeConfig()
 
